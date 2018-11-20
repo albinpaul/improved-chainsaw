@@ -4,9 +4,13 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
   selector: 'app-logincomponent',
   // templateUrl: './logincomponent.component.html',
   template: `
-  <span *ngFor="let hero of Heros;index as i" >{{i%5 == 0}} {{hero}}
-  </span>
-  <br *ngIf="i%5 == 4"/>
+  <form [formGroup]="registerForm"  (ngSubmit)="onSubmit()">
+  {{registerForm.value|json}}
+  <br/>
+  <input type="text"  formControlName="userName"/>
+  <br/>
+  <input type="password"  formControlName="passWord"/>
+  </form>
   `,
   styleUrls: ['./logincomponent.component.sass']
 })
@@ -14,23 +18,14 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 
 export class LogincomponentComponent implements OnInit {
-  Heros: string[] = [];
-  constructor() { }
-  shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-    return array;
-  }
-  ngOnInit() {
-    for ( let i = 1 ; i <= 25 ; i++ ) {
-      this.Heros.push(i.toString());
-    }
-    this.Heros = this.shuffle(this.Heros);
+  registerForm = new FormGroup({
+    userName: new FormControl(''),
+    passWord: new FormControl('')
+  });
+  constructor(private formBuilder: FormBuilder) { }
+  ngOnInit() {}
+  onSubmit() {
+    // TODO: Use EventEmitter with form value
+    console.warn(this.registerForm.value);
   }
 }
